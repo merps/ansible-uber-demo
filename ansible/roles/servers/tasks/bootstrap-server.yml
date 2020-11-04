@@ -16,11 +16,11 @@
     - python-setuptools
     - rpm
     - python-jmespath
-    - podman
+    - docker
 
-- name: Install Podman Compose Module for Python
+- name: Install Docker Compose Module for Python
   pip:
-    name: podman-compose
+    name: docker-compose
 
 - name: Create new network interface	
   import_role:	
