@@ -11,11 +11,11 @@
     - apt-transport-https
     - ca-certificates
     - curl
-    - python-pip
+    - python3-pip
     - virtualenv
     - python-setuptools
     - rpm
-    - python-jmespath
+    - python3-jmespath
     - docker
 
 - name: Install Docker Compose Module for Python
