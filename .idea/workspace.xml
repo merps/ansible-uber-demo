@@ -55,6 +55,7 @@
       <updated>1596712043917</updated>
       <workItem from="1596712045048" duration="889000" />
       <workItem from="1603799968379" duration="3850000" />
+      <workItem from="1604570283066" duration="403000" />
     </task>
     <servers />
   </component>
@@ -71,6 +72,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="601" y="505" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603805974897">
