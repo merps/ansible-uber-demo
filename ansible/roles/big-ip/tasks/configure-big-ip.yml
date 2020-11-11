@@ -24,47 +24,51 @@
     provider: "{{ bigip_provider }}"
   delegate_to: localhost
 
+#
+# Removal of Grafana
+# TODO: Add to Management/update ENI 
+#
+#- name: Prepare the AS3 Grafana application declaration from the template
+#  template:
+#    src: "{{ role_path }}/templates/{{ as3_grafana_template }}"
+#    dest: "{{ tmp_dir }}/{{ as3_grafana_declaration }}"
 
-- name: Prepare the AS3 Grafana application declaration from the template
-  template:
-    src: "{{ role_path }}/templates/{{ as3_grafana_template }}"
-    dest: "{{ tmp_dir }}/{{ as3_grafana_declaration }}"
+#- name: Deploy the Grafana app service configuration
+#  bigip_appsvcs_extension:
+#    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_grafana_declaration }}') }}"
+#    state: present
+#    provider: "{{ bigip_provider }}"
+#  delegate_to: localhost
 
-- name: Deploy the Grafana app service configuration
-  bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_grafana_declaration }}') }}"
-    state: present
-    provider: "{{ bigip_provider }}"
-  delegate_to: localhost
-
-
-- name: Prepare the Telemetry Streaming declaration from the template
-  template:
-    src: "{{ role_path }}/templates/{{ ts_template }}"
-    dest: "{{ tmp_dir }}/{{ ts_declaration }}"
-
-- name: Validate Telemetry Streaming rest worker is ready
-  uri:
-    headers:
-      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
-    method: GET
-    url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
-    validate_certs: "{{ bigip_provider.validate_certs }}"
-  retries: 30
-  delay: 5
-  register: result
-  until: "(result is successful) and (result.status == 200)"
-
-- name: Use Telemetry Streaming to configure BIG-IP
-  uri:
-    body: "{{ lookup('file','{{ tmp_dir }}/{{ ts_declaration }}') }}"
-    body_format: json
-    headers:
-      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
-    method: POST
-    status_code: 200
-    url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/declare"
-    validate_certs: "{{ bigip_provider.validate_certs }}"
+#
+# Moved to cloud-init
+#- name: Prepare the Telemetry Streaming declaration from the template
+#  template:
+#    src: "{{ role_path }}/templates/{{ ts_template }}"
+#    dest: "{{ tmp_dir }}/{{ ts_declaration }}"
+#
+#- name: Validate Telemetry Streaming rest worker is ready
+#  uri:
+#    headers:
+#      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
+#    method: GET
+#    url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
+#    validate_certs: "{{ bigip_provider.validate_certs }}"
+#  retries: 30
+#  delay: 5
+#  register: result
+#  until: "(result is successful) and (result.status == 200)"
+#
+#- name: Use Telemetry Streaming to configure BIG-IP
+#  uri:
+#    body: "{{ lookup('file','{{ tmp_dir }}/{{ ts_declaration }}') }}"
+#    body_format: json
+#    headers:
+#      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
+#    method: POST
+#    status_code: 200
+#    url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/declare"
+#    validate_certs: "{{ bigip_provider.validate_certs }}"
 
 - name: Destroy an API token
   uri:
