@@ -7,6 +7,3 @@
 
 - name: Configure Elasticsearch
   import_tasks: elasticsearch.yml
-
- - name: Configure Grafana
-  import_tasks: grafana.yml
